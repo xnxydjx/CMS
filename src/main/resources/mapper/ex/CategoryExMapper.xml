@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 映射文件与映射接口关联 -->
+<mapper namespace="com.briup.demo.mapper.ex.CategoryExMapper">
+  <!-- 修改Bean对象 -->
+  <resultMap id="BaseResultMap" type="com.briup.demo.bean.ex.CategoryEx">
+    <id column="cid" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="BIGINT" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <collection property="articles" ofType="com.briup.demo.bean.Article"
+    	column="id" select="selectAllArticleByCategoryId"></collection>
+  </resultMap>
+ 	<!-- ResultMap ResultType -->
+ 	<!-- id as cid 避免列名冲突 -->
+ 	<select id="findAllCategoryExs" resultMap="BaseResultMap">
+ 		select id,name,code from cms_category
+ 	</select>
+ 	<select id="selectAllArticleByCategoryId" resultType="com.briup.demo.bean.Article">
+ 		select * from cms_article where category_id = #{id}
+ 	</select>
+ 	
+ 	<select id="findCategoryExById" resultMap="BaseResultMap">
+ 		select * from cms_category where id = #{id}
+ 	</select>
+</mapper>
